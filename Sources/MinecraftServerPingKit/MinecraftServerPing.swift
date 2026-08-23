@@ -96,19 +96,22 @@ public struct MinecraftServerInfo: Codable, Sendable {
                     try container.encode(description)
                 }
             }
+
+            /// Returns this element as plain text with formatting codes removed.
+            public var plainText: String {
+                switch self {
+                case let .string(value):
+                    Description.stripFormatCodes(value)
+                case let .object(description):
+                    description.plainText
+                }
+            }
         }
 
         /// Returns the description text with Minecraft formatting codes removed.
         public var plainText: String {
             var result = text.map(Self.stripFormatCodes) ?? ""
-            result += extra?.map { element in
-                switch element {
-                case let .string(value):
-                    Self.stripFormatCodes(value)
-                case let .object(description):
-                    description.plainText
-                }
-            }.joined() ?? ""
+            result += extra?.map(\.plainText).joined() ?? ""
             return result
         }
 
