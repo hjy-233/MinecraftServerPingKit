@@ -1,0 +1,13 @@
+excluded:
+  - .build
+
+disabled_rules:
+  - line_length
+  - trailing_comma
+
+nesting:
+  type_level: 2
+
+function_body_length:
+  warning: 60
+  error: 100
